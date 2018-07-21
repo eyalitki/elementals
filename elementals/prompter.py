@@ -51,7 +51,7 @@ class Prompter(Logger):
 
         log_style = self._logger._log_styles[log_level]
         log_level = self._level_masking[log_level]
-        out_format = " " * 4 * self._indents + " %s %s"
+        out_format = " " * 4 * self._indents + "%s %s"
 
         # Check if we have a multilined message
         if '\n' in message:
