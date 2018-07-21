@@ -1,12 +1,14 @@
 from elementals import ProgressBar
 from elementals	import Prompter
 import time
+import logging
 
-prompt = Prompter([('action_log.txt', 'w')])
-prompt.logEvent("Started the script")
-prompt.logEvent("Phase #1 - collecting the data")
+prompt = Prompter("test", [('action_log.txt', 'w', logging.DEBUG)])
+prompt.debug("The name should be \"test\"")
+prompt.info("Started the script")
+prompt.info("Phase #1 - collecting the data")
 prompt.addIndent()
-prompt.logEvent("Activating the tool")
+prompt.info("Activating the tool")
 p = ProgressBar('Leaked %3d / %3d bytes - %3d%% Completed', 250, 30, True, time_format = "Elapsed %M:%S -")
 p.start( )
 p.advance( 1 )
@@ -20,4 +22,4 @@ time.sleep(0.5)
 p.advance( 200 )
 p.finish( )
 prompt.removeIndent()
-prompt.logEvent("Successful finish")
+prompt.info("Successful finish")
