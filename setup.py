@@ -3,7 +3,7 @@ from codecs import open
 from os import path
 
 setup(name='elementals',
-      version='0.9',
+      version='1.0',
       description='Basic utilities for CTF scripts',
       author='Eyal Itkin',
       author_email='eyal.itkin@gmail.com',
