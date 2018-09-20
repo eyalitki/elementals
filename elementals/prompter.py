@@ -1,5 +1,5 @@
 import logging
-from logger import Logger, ColorFormatter
+from .logger import Logger, ColorFormatter
 from colorama import Style
 
 class Prompter(Logger):

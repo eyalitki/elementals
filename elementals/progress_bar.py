@@ -88,7 +88,7 @@ class ProgressBar(object):
             line_size = len(status_line)
             progress_bar = '=' * int(work_percentage * line_size)
             progress_bar += ' ' * (line_size - len(progress_bar))
-            progress_line = ' ' * (self._num_spaces / 2) + '[%s]' % progress_bar
+            progress_line = ' ' * int(self._num_spaces / 2) + '[%s]' % progress_bar
         # Now actually print it
         if self._last_update is not None:
             if self._use_bar:
