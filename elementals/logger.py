@@ -1,6 +1,7 @@
 import time
 import logging
 from colorama import init, Fore, Style
+from hexdump import dumpgen
 
 # Init the colorama state
 init()
@@ -13,7 +14,7 @@ class Logger(logging.Logger):
         _timestamp                  (str): time stamp that is used for the log records
         _log_format                 (str): record log format using the following arguments: (timestamp, log type, log message)
         _min_level                 (enum): minimal logging level that should be recorded 
-        _formatter    (logging.formatter): basic formatter for FileHandler()s
+        _formatter       (LinesFormatter): basic formatter for FileHandler()s
         _color_formatter (ColorFormatter): colored formatter for the output handler (StreamHandler)
 
     Configurations:
@@ -50,7 +51,7 @@ class Logger(logging.Logger):
 
         self.setLevel(logging.DEBUG)
 
-        self._formatter = logging.Formatter(self._log_format, datefmt = self._timestamp)
+        self._formatter = LinesFormatter(self._log_format, datefmt = self._timestamp)
         self._color_formatter = ColorFormatter(self._log_format, datefmt = self._timestamp)
         if use_stdout:
             out_handler = logging.StreamHandler()
@@ -100,6 +101,29 @@ class Logger(logging.Logger):
         """Removes an indentation level from the following log records shown on the stdout"""
         pass
 
+    @staticmethod
+    def _fixLines(record, prefix):
+        """Updates a (possibly) multiline record, to better print the prefix
+
+        Args:
+            record (Logging.LogRecord): log record
+            prefix               (str): string prefix to be added
+        """
+        raw_msg = record.msg
+        if "\n" not in record.msg:
+            record.msg = prefix + record.msg
+        else:
+            prefix_length = len(prefix)
+            raw_msg = record.msg
+            record.msg = ''
+            for line in raw_msg.split("\n"):
+                if len(record.msg) == 0:
+                    record.msg += prefix + line + "\n"
+                else:
+                    record.msg += prefix_length * " " + line + "\n"
+            # chop the last new line
+            record.msg = record.msg[:-1]
+
 class ColorFormatter(logging.Formatter):
     """Custom color formatter to be used by the std output handler of the Logger class
 
@@ -133,6 +157,44 @@ class ColorFormatter(logging.Formatter):
         self._log_styles[log_level] = style
 
     def format(self, record):
-        msg_record = super(ColorFormatter, self).format(record)
-        return self._log_styles[record.levelno] + msg_record + Style.RESET_ALL
+        raw_msg = record.msg
+        record.msg = ''
+        prefix = super(ColorFormatter, self).format(record)
+        record.msg = raw_msg
+        Logger._fixLines(record, prefix)
+        result = record.msg
+        # restore the record
+        record.msg = raw_msg
+        # return the result
+        return self._log_styles[record.levelno] + result + Style.RESET_ALL
 
+class LinesFormatter(logging.Formatter):
+    """Custom formatter to add support for multiline records"""
+
+    def __init__(self, fmt=None, datefmt=None):
+        """Default ctor"""
+        super(LinesFormatter, self).__init__(fmt, datefmt)
+
+    def format(self, record):
+        raw_msg = record.msg
+        record.msg = ''
+        prefix = super(LinesFormatter, self).format(record)
+        record.msg = raw_msg
+        Logger._fixLines(record, prefix)
+        result = record.msg
+        # restore the record
+        record.msg = raw_msg
+        # return the result
+        return result
+
+def hexDump(data):
+    """Prepares a hexdump string to be nicely printed by a logger
+
+    Args:
+        data (str): binary blob to be converted to a nice hexdump
+
+    Return Value:
+        absolute path to the created anchor directory
+    """
+    # Python StreamHandler uses '\n' as a terminator, so we are fine
+    return '\n'.join(dumpgen(data))

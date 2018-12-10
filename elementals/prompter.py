@@ -94,5 +94,10 @@ class PrompterFormatter(ColorFormatter):
         self._indents -= 1
 
     def format(self, record):
-        record.msg = self._indents * 4 * " " + self._level_masking[record.levelno] + " " + record.msg
-        return super(PrompterFormatter, self).format(record)
+        raw_msg = record.msg
+        Logger._fixLines(record, self._indents * 4 * " " + self._level_masking[record.levelno] + " ")
+        result = super(PrompterFormatter, self).format(record)
+        # restore the record
+        record.msg = raw_msg
+        # return the result
+        return result

@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setup(name='elementals',
-      version='1.1.1',
+      version='1.2.0',
       description='Basic utilities for CTF (or exploit) scripts',
       author='Eyal Itkin',
       author_email='eyal.itkin@gmail.com',
@@ -15,7 +15,7 @@ setup(name='elementals',
       url='https://github.com/eyalitki/elementals',
       license='GPL',
       packages=find_packages(exclude=['tests']),
-      install_requires=['colorama'],
+      install_requires=['colorama', 'hexdump'],
       classifiers=[
                     "Programming Language :: Python",
                     "License :: OSI Approved :: GNU General Public License (GPL)",
