@@ -20,8 +20,7 @@ class Logger(logging.Logger):
     Configurations:
         default_timestamp           (str): Default time stamp that is used for the log records
         default_log_format          (str): Default record log format: (timestamp, log type, log name, log message)
-                                           NOTE: multiline comments assume that the message ends the record's line
-        default_nameless_log_format (str): Default record log forma if has no namet: (timestamp, log type, log message)
+        default_nameless_log_format (str): Default record log format if has no name: (timestamp, log type, log message)
     """
 
     default_timestamp           = "%d/%m/%Y %H:%M:%S"
@@ -35,7 +34,7 @@ class Logger(logging.Logger):
             name                            (str): name for the logger instance
             log_files (tuple of tuples, optional): tuple of log files we should use: (log file name, open mode (, min log level))
             use_stdout        (boolean, optional): should we print to stdout? (True by default)
-            min_log_level        (enum, optional): minimum log level. Value should be an enum option from the log level names (EVENT_LEVEL by default)
+            min_log_level        (enum, optional): minimum log level. Value should be an enum option from the log level names (logging.INFO by default)
             timestamp             (str, optional): time format to be used in every log record (default_timestamp by default)
             log_format            (str, optional): overall format of the log records (default_log_format by default)
         """

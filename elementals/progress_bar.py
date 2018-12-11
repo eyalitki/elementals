@@ -9,26 +9,26 @@ class ProgressBar(object):
     """Progress Bar utility for tasks with a known size limit
 
     Attributes:
-        _format (str): format string (work done, total work, percentage) to be used for the printted message
-        _time_format (str): time format to be used for the elapsed time (None if time is not to be printted)
-        _num_spaces (int): number of spaces that should be used before the format message is printted
-        _work_done (int): amount of work that was done till now
-        _total_work (int): overall amount of work that needs to be done
-        _use_bar (bool) : True iff there should be printted also a graphical status bar
-        _refresh_period (int) : time period (in seconds) used to update the shown status, or -1 if not activated
-        _last_update (time) : time point of last shown status (None if did not start yet)
-        _start_time (int) : time point of the progress start
+        _format         (str): format string (work done, total work, percentage) to be used for the printted message
+        _time_format    (str): time format to be used for the elapsed time (None if time is not to be printted)
+        _num_spaces     (int): number of spaces that should be used before the format message is printted
+        _work_done      (int): amount of work that was done till now
+        _total_work     (int): overall amount of work that needs to be done
+        _use_bar       (bool): True iff there should be printted also a graphical status bar
+        _refresh_period (int): time period (in seconds) used to update the shown status, or -1 if not activated
+        _last_update   (time): time point of last shown status (None if did not start yet)
+        _start_time     (int): time point of the progress start
     """
 
     def __init__(self, progress_format, total_work, num_spaces, use_bar = False, time_format = None, refresh_interval = 1):
         """Configures the newly built progress bar instance
 
         Args:
-            progress_format (str): format string (work done, total work, percentage) to be used for the printted message
-            total_work (int): total amount of work to be done (in some measuring unit)
-            num_spaces (int): number of spaces that should be used before the format message is printted
-            use_bar (bool, optional): True iff should also print a graphical status bar (False by default)
-            time_format (str, optional) : time format to be used for the elapsed time (None by default)
+            progress_format            (str): format string (work done, total work, percentage) to be used for the printted message
+            total_work                 (int): total amount of work to be done (in some measuring unit)
+            num_spaces                 (int): number of spaces that should be used before the format message is printted
+            use_bar         (bool, optional): True iff should also print a graphical status bar (False by default)
+            time_format     (str, optional) : time format to be used for the elapsed time (None by default)
             refresh_interval (int, optional): time period (in seconds) used to update the shown status, or -1 if not activated. (1 By default)
         """
         self._format         = progress_format
@@ -51,7 +51,7 @@ class ProgressBar(object):
         """Marks the completion of X units of work
 
         Args:
-            units (int): Number of units of work that were finished
+            units                  (int): Number of units of work that were finished
             force_print (bool, optional): True iff should force an update of the printted message (False by default)
         """
         self._work_done += units

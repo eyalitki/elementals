@@ -7,8 +7,8 @@ def createAnchor(base_path, name_format, move_inside = False):
     """Creates an anchor directory for the running script's outputs
 
     Args:
-        base_path (str): basic FS path in which the anchor directory will be created
-        name_format (str): name format for the created anchor: (timestamp)
+        base_path              (str): basic FS path in which the anchor directory will be created
+        name_format            (str): name format for the created anchor: (timestamp)
         move_inside (bool, optional): True iff should move the current directory to the anchor (False by default)
 
     Return Value:

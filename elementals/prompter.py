@@ -15,7 +15,7 @@ class Prompter(Logger):
         Args:
             name                  (str, optional): name of the logger instance (no name by default)
             log_files (tuple of tuples, optional): tuple of log files we should use: (log file name, open mode (, min log level))
-            min_log_level        (enum, optional): minimum log level. Value should be an enum option from the log level names (EVENT_LEVEL by default)
+            min_log_level        (enum, optional): minimum log level. Value should be an enum option from the log level names (logging.INFO by default)
             timestamp             (str, optional): time format to be used in every log record (default_timestamp by default)
             log_format            (str, optional): overall format of the log records (default_log_format by default)
         """

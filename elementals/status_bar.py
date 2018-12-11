@@ -9,13 +9,13 @@ class StatusBar(object):
     """Status Bar utility for tasks without a known size limit
 
     Attributes:
-        _messasge (str): message that should be used when printting the status
-        _time_format (str): time format to be used for the elapsed time (None if time is not to be printted)
-        _num_spaces (int): number of spaces that should be used before the format message is printted
-        _refresh_period (int) : time period (in seconds) used to update the shown status, or -1 if not activated
-        _last_update (time) : time point of last shown status (None if did not start yet)
-        _animation_index (int) : numeric state of the animation
-        _animation_states (tuple) : tuple of strings that will be printted one in each state in a cyclic fashion
+        _messasge           (str): message that should be used when printting the status
+        _time_format        (str): time format to be used for the elapsed time (None if time is not to be printted)
+        _num_spaces         (int): number of spaces that should be used before the format message is printted
+        _refresh_period     (int): time period (in seconds) used to update the shown status, or -1 if not activated
+        _last_update (      time): time point of last shown status (None if did not start yet)
+        _animation_index    (int): numeric state of the animation
+        _animation_states (tuple): tuple of strings that will be printted one in each state in a cyclic fashion
 
     Configuration Attributes:
         default_animation (tuple) : tuple of strings that will be printted one in each state in a cyclic fashion
@@ -27,11 +27,11 @@ class StatusBar(object):
         """Configures the newly built status bar instance
 
         Args:
-            message (str): message that should be used when printting the status
-            num_spaces (int): number of spaces that should be used before the message is printted
-            time_format (str, optional) : time format to be used for the elapsed time (None by default)
+            message                    (str): message that should be used when printting the status
+            num_spaces                 (int): number of spaces that should be used before the message is printted
+            time_format      (str, optional): time format to be used for the elapsed time (None by default)
             refresh_interval (int, optional): time period (in seconds) used to update the shown status, or -1 if not activated. (1 By default)
-            animation (tuple, optional): tuple of strings that will be printted one in each state in a cyclic fashion (default_animation by default)
+            animation      (tuple, optional): tuple of strings that will be printted one in each state in a cyclic fashion (default_animation by default)
         """
         self._message          = message
         self._time_format      = time_format
