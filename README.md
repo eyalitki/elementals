@@ -17,7 +17,9 @@ The features included in **elementals** are:
 
 Here is a screenshot from an example script with most of the features:
 ![alt text](https://github.com/eyalitki/elementals/blob/master/docs/elementals_poc.png "Full use case")
-And here is an example of the hex dump output:
+And here is the log that is stored behind the scenes:
+![alt text](https://github.com/eyalitki/elementals/blob/master/docs/elementals_log.png "Stored log")
+Example of the hexDump()'s output:
 ![alt text](https://github.com/eyalitki/elementals/blob/master/docs/elementals_hexdump.png "Hex dump")
 
 ## Used by
