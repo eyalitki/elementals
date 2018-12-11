@@ -4,6 +4,9 @@ Python package with basic utilities for CTF scripts (works well for exploit PoCs
 ## Install
 ```pip install elementals```
 
+## Read The Docs
+https://elementals.readthedocs.io/
+
 ## Brief
 The **elementals** python package is a utility package with handy tools for CTF scripts and PoC-style scripts. What was first implemented for personal use in small research scripts was now upgraded to be used by security researchers as a lightweight substitute to the famous pwntools package.
 
