@@ -158,15 +158,18 @@ class ColorFormatter(logging.Formatter):
 
     def format(self, record):
         raw_msg = record.msg
+        msg_args = record.args
         record.msg = ''
+        record.args = []
         prefix = super(ColorFormatter, self).format(record)
         record.msg = raw_msg
         Logger._fixLines(record, prefix)
-        result = record.msg
+        record.args = msg_args
+        result = self._log_styles[record.levelno] + super(ColorFormatter, self).format(record) + Style.RESET_ALL
         # restore the record
         record.msg = raw_msg
         # return the result
-        return self._log_styles[record.levelno] + result + Style.RESET_ALL
+        return result
 
 class LinesFormatter(logging.Formatter):
     """Custom formatter to add support for multiline records"""
@@ -177,11 +180,16 @@ class LinesFormatter(logging.Formatter):
 
     def format(self, record):
         raw_msg = record.msg
+        msg_args = record.args
         record.msg = ''
+        record.args = []
         prefix = super(LinesFormatter, self).format(record)
         record.msg = raw_msg
         Logger._fixLines(record, prefix)
-        result = record.msg
+        record.args = msg_args
+        result = super(LinesFormatter, self).format(record)
+        # avoid a double prefix
+        result = result[len(prefix):]
         # restore the record
         record.msg = raw_msg
         # return the result
