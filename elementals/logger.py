@@ -102,27 +102,28 @@ class Logger(logging.Logger):
         pass
 
     @staticmethod
-    def _fixLines(record, prefix):
+    def _fixLines(message, prefix):
         """Updates a (possibly) multiline record, to better print the prefix
 
         Args:
-            record (Logging.LogRecord): log record
-            prefix               (str): string prefix to be added
+            message (str): log record message
+            prefix  (str): string prefix to be added
+
+        Return Value:
+            styled to prefix (possibly multiline) message
         """
-        raw_msg = record.msg
-        if "\n" not in record.msg:
-            record.msg = prefix + record.msg
+        if "\n" not in message:
+            return prefix + message
         else:
             prefix_length = len(prefix)
-            raw_msg = record.msg
-            record.msg = ''
-            for line in raw_msg.split("\n"):
-                if len(record.msg) == 0:
-                    record.msg += prefix + line + "\n"
+            result = ''
+            for line in message.split("\n"):
+                if len(result) == 0:
+                    result += prefix + line + "\n"
                 else:
-                    record.msg += prefix_length * " " + line + "\n"
+                    result += prefix_length * " " + line + "\n"
             # chop the last new line
-            record.msg = record.msg[:-1]
+            return result[:-1]
 
 class ColorFormatter(logging.Formatter):
     """Custom color formatter to be used by the std output handler of the Logger class
@@ -163,13 +164,8 @@ class ColorFormatter(logging.Formatter):
         record.args = []
         prefix = super(ColorFormatter, self).format(record)
         record.msg = raw_msg
-        Logger._fixLines(record, prefix)
         record.args = msg_args
-        result = self._log_styles[record.levelno] + super(ColorFormatter, self).format(record) + Style.RESET_ALL
-        # restore the record
-        record.msg = raw_msg
-        # return the result
-        return result
+        return self._log_styles[record.levelno] + Logger._fixLines(super(ColorFormatter, self).format(record)[len(prefix):], prefix) + Style.RESET_ALL
 
 class LinesFormatter(logging.Formatter):
     """Custom formatter to add support for multiline records"""
@@ -185,15 +181,9 @@ class LinesFormatter(logging.Formatter):
         record.args = []
         prefix = super(LinesFormatter, self).format(record)
         record.msg = raw_msg
-        Logger._fixLines(record, prefix)
         record.args = msg_args
-        result = super(LinesFormatter, self).format(record)
         # avoid a double prefix
-        result = result[len(prefix):]
-        # restore the record
-        record.msg = raw_msg
-        # return the result
-        return result
+        return Logger._fixLines(super(LinesFormatter, self).format(record)[len(prefix):], prefix)
 
 def hexDump(data):
     """Prepares a hexdump string to be nicely printed by a logger
@@ -202,7 +192,7 @@ def hexDump(data):
         data (str): binary blob to be converted to a nice hexdump
 
     Return Value:
-        absolute path to the created anchor directory
+        hexdump formatted string (possibly with multiple lines)
     """
     # Python StreamHandler uses '\n' as a terminator, so we are fine
     return '\n'.join(dumpgen(data))

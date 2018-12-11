@@ -94,10 +94,19 @@ class PrompterFormatter(ColorFormatter):
         self._indents -= 1
 
     def format(self, record):
+        self_prefix = self._indents * 4 * " " + self._level_masking[record.levelno] + " "
         raw_msg = record.msg
-        Logger._fixLines(record, self._indents * 4 * " " + self._level_masking[record.levelno] + " ")
-        result = super(PrompterFormatter, self).format(record)
-        # restore the record
+        msg_args = record.args
+        record.msg = ''
+        record.args = []
+        # We use ColorFormatter (twice) on purpose, as we want to skip forward to it's parent
+        prefix = super(ColorFormatter, self).format(record) + self_prefix
         record.msg = raw_msg
-        # return the result
+        record.args = msg_args
+        # avoid a double prefix
+        record.msg = Logger._fixLines(super(ColorFormatter, self).format(record)[len(prefix) - len(self_prefix):], prefix)
+        record.args = []
+        result = super(PrompterFormatter, self).format(record)
+        record.msg = raw_msg
+        record.args = msg_args
         return result
