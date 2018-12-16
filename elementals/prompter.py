@@ -49,6 +49,17 @@ class Prompter(Logger):
 
     def removeIndent(self):
         self._prompter_formatter.removeIndent()
+		
+    def input(self, msg):
+        """Prompts the user for a given input, using the same meta-sploit styled prefix
+		
+		Args:
+			msg (str): message that would be shown to the user when asking for his input
+
+        Return Value:
+			User input string, as returned by "raw_input"
+        """
+        return raw_input(self._prompter_formatter.calcPrefix() + msg)
 
 class PrompterFormatter(ColorFormatter):
     """Custom metasploit-style formatter to be used by the std output handler of the Prompter class
@@ -92,9 +103,20 @@ class PrompterFormatter(ColorFormatter):
         if self._indents <= 0:
             raise Exception("Indentation can not be decreased to negative values")
         self._indents -= 1
+		
+    def calcPrefix(self, log_level = logging.INFO):
+        """Calculates the current indentation prefix that should be used
+		
+		Args:
+			log_level (enum, optional): logging level, from logging (logging.INFO by default)
+
+        Return Value:
+			Indented Meta-sploit style string prefix
+        """
+        return self._indents * 4 * " " + self._level_masking[log_level] + " "
 
     def format(self, record):
-        self_prefix = self._indents * 4 * " " + self._level_masking[record.levelno] + " "
+        self_prefix = self.calcPrefix(record.levelno)
         raw_msg = record.msg
         msg_args = record.args
         record.msg = ''
