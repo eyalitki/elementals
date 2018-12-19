@@ -1,5 +1,6 @@
 import logging
-from .logger import Logger, ColorFormatter
+from .logger        import Logger, ColorFormatter
+from six.moves      import input
 
 class Prompter(Logger):
     """Exploit oriented cmd prompter, uses logger behind the scenes.
@@ -61,7 +62,7 @@ class Prompter(Logger):
         Return Value:
             User input string, as returned by "raw_input"
         """
-        return raw_input(self._prompter_formatter.calcPrefix() + msg)
+        return input(self._prompter_formatter.calcPrefix() + msg)
 
 class PrompterFormatter(ColorFormatter):
     """Custom metasploit-style formatter to be used by the std output handler of the Prompter class.
