@@ -1,4 +1,3 @@
-import time
 import logging
 from colorama import init, Fore, Style
 from hexdump import dumpgen
@@ -7,17 +6,19 @@ from hexdump import dumpgen
 init()
 
 class Logger(logging.Logger):
-    """Generic Logger that prints both to stdout and an external log file
+    """Generic Logger that prints both to stdout and an external log file.
 
-    Attributes:
+    Attributes
+    ----------
         _name                       (str): name of the logger instance
         _timestamp                  (str): time stamp that is used for the log records
         _log_format                 (str): record log format using the following arguments: (timestamp, log type, log message)
-        _min_level                 (enum): minimal logging level that should be recorded 
+        _min_level                 (enum): minimal logging level that should be recorded
         _formatter       (LinesFormatter): basic formatter for FileHandler()s
         _color_formatter (ColorFormatter): colored formatter for the output handler (StreamHandler)
 
-    Configurations:
+    Configurations
+    --------------
         default_timestamp           (str): Default time stamp that is used for the log records
         default_log_format          (str): Default record log format: (timestamp, log type, log name, log message)
         default_nameless_log_format (str): Default record log format if has no name: (timestamp, log type, log message)
@@ -27,8 +28,8 @@ class Logger(logging.Logger):
     default_log_format          = "[%(asctime)s] - %(name)s - %(levelname)s: %(message)s"
     default_nameless_log_format = "[%(asctime)s] - %(levelname)s: %(message)s"
 
-    def __init__(self, name, log_file_names = [], use_stdout = True, min_log_level = logging.INFO, timestamp = default_timestamp, log_format = default_log_format):
-        """Configures the newly built logger instance
+    def __init__(self, name, log_file_names=[], use_stdout=True, min_log_level=logging.INFO, timestamp=default_timestamp, log_format=default_log_format):
+        """Configure the newly built logger instance.
 
         Args:
             name                            (str): name for the logger instance
@@ -50,8 +51,8 @@ class Logger(logging.Logger):
 
         self.setLevel(logging.DEBUG)
 
-        self._formatter = LinesFormatter(self._log_format, datefmt = self._timestamp)
-        self._color_formatter = ColorFormatter(self._log_format, datefmt = self._timestamp)
+        self._formatter = LinesFormatter(self._log_format, datefmt=self._timestamp)
+        self._color_formatter = ColorFormatter(self._log_format, datefmt=self._timestamp)
         if use_stdout:
             out_handler = logging.StreamHandler()
             out_handler.setLevel(self._min_level)
@@ -64,27 +65,26 @@ class Logger(logging.Logger):
                 file_min_level = min_log_level
             else:
                 file_name, open_mode, file_min_level = log_file_record
-            file_handler = logging.FileHandler(file_name, mode = open_mode)
+            file_handler = logging.FileHandler(file_name, mode=open_mode)
             file_handler.setLevel(file_min_level)
             file_handler.setFormatter(self._formatter)
             self.addHandler(file_handler)
 
-    def linkHandler(self, handler, log_level = None):
-        """Links an additional custom handler
+    def linkHandler(self, handler, log_level=None):
+        """Link an additional custom handler.
 
         Args:
             handler  (logging.Handler): custom handler
             log_level (enum, optional): minimal logging level (self._min_level by default)
         """
-
-        if log_level is None :
+        if log_level is None:
             log_level = self._min_level
         handler.setLevel(log_level)
         handler.setFormatter(self._formatter)
         self.addHandler(handler)
 
     def setColor(self, log_level, style):
-        """Updates the basic style for a specific logging level in the StreamHandler
+        """Update the basic style for a specific logging level in the StreamHandler.
 
         Args:
             log_level (enum): logging level (from logging)
@@ -93,16 +93,16 @@ class Logger(logging.Logger):
         self._color_formatter.setColor(log_level, style)
 
     def addIndent(self):
-        """Adds an indentation level to the following log records shown on the stdout"""
+        """Add an indentation level to the following log records shown on the stdout."""
         pass
 
     def removeIndent(self):
-        """Removes an indentation level from the following log records shown on the stdout"""
+        """Remove an indentation level from the following log records shown on the stdout."""
         pass
 
     @staticmethod
     def _fixLines(message, prefix):
-        """Updates a (possibly) multiline record, to better print the prefix
+        """Update a (possibly) multiline record, to better print the prefix.
 
         Args:
             message (str): log record message
@@ -125,17 +125,19 @@ class Logger(logging.Logger):
             return result[:-1]
 
 class ColorFormatter(logging.Formatter):
-    """Custom color formatter to be used by the std output handler of the Logger class
+    """Custom color formatter to be used by the std output handler of the Logger class.
 
-    Attributes:
+    Attributes
+    ----------
         _log_styles (dict): a mapping between a log level's name and its style
 
-    Configurations:
+    Configurations
+    --------------
         default_colors (dict of type => color): <log level> => <colorama formatting>
     """
 
     default_colors  = {
-                        logging.DEBUG:    Fore.LIGHTCYAN_EX, 
+                        logging.DEBUG:    Fore.LIGHTCYAN_EX,
                         logging.INFO:     Fore.LIGHTWHITE_EX,
                         logging.WARN:     Fore.LIGHTYELLOW_EX,
                         logging.ERROR:    Fore.LIGHTRED_EX,
@@ -143,12 +145,12 @@ class ColorFormatter(logging.Formatter):
                       }
 
     def __init__(self, fmt=None, datefmt=None):
-        """Default ctor"""
+        """Create the base instance."""
         super(ColorFormatter, self).__init__(fmt, datefmt)
         self._log_styles = dict(ColorFormatter.default_colors)
 
     def setColor(self, log_level, style):
-        """Updates the basic style for a specific logging level
+        """Update the basic style for a specific logging level.
 
         Args:
             log_level (enum): logging level (from logging)
@@ -157,6 +159,14 @@ class ColorFormatter(logging.Formatter):
         self._log_styles[log_level] = style
 
     def format(self, record):
+        """Implement the basic format method.
+
+        Args:
+            record (LogRecord): log record to be nicely formatted
+
+        Return Value:
+            formated string message that represents the log record
+        """
         raw_msg = record.msg
         msg_args = record.args
         record.msg = ''
@@ -167,13 +177,21 @@ class ColorFormatter(logging.Formatter):
         return self._log_styles[record.levelno] + Logger._fixLines(super(ColorFormatter, self).format(record)[len(prefix):], prefix) + Style.RESET_ALL
 
 class LinesFormatter(logging.Formatter):
-    """Custom formatter to add support for multiline records"""
+    """Custom formatter to add support for multiline records."""
 
     def __init__(self, fmt=None, datefmt=None):
-        """Default ctor"""
+        """Create the base instance."""
         super(LinesFormatter, self).__init__(fmt, datefmt)
 
     def format(self, record):
+        """Implement the basic format method.
+
+        Args:
+            record (LogRecord): log record to be nicely formatted
+
+        Return Value:
+            formated string message that represents the log record
+        """
         raw_msg = record.msg
         msg_args = record.args
         record.msg = ''
@@ -185,7 +203,7 @@ class LinesFormatter(logging.Formatter):
         return Logger._fixLines(super(LinesFormatter, self).format(record)[len(prefix):], prefix)
 
 def hexDump(data):
-    """Prepares a hexdump string to be nicely printed by a logger
+    """Prepare a hexdump string to be nicely printed by a logger.
 
     Args:
         data (str): binary blob to be converted to a nice hexdump

@@ -45,7 +45,7 @@ setup(name='elementals',
       url='https://github.com/eyalitki/elementals',
       license='GPL',
       packages=find_packages(exclude=['tests']),
-      install_requires=['colorama', 'hexdump'],
+      install_requires=['colorama', 'hexdump', 'pydocstyle', 'flake8'],
       classifiers=[
                     "Programming Language :: Python",
                     "License :: OSI Approved :: GNU General Public License (GPL)",

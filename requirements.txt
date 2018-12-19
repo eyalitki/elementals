@@ -1,0 +1,4 @@
+colorama
+hexdump
+pydocstyle
+flake8

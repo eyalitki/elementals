@@ -6,9 +6,10 @@ from colorama import init
 init()
 
 class ProgressBar(object):
-    """Progress Bar utility for tasks with a known size limit
+    """Progress Bar utility for tasks with a known size limit.
 
-    Attributes:
+    Attributes
+    ----------
         _format         (str): format string (work done, total work, percentage) to be used for the printed message
         _time_format    (str): time format to be used for the elapsed time (None if time is not to be printed)
         _num_spaces     (int): number of spaces that should be used before the format message is printed
@@ -20,8 +21,8 @@ class ProgressBar(object):
         _start_time     (int): time point of the progress start
     """
 
-    def __init__(self, progress_format, total_work, num_spaces, use_bar = False, time_format = None, refresh_interval = 1):
-        """Configures the newly built progress bar instance
+    def __init__(self, progress_format, total_work, num_spaces, use_bar=False, time_format=None, refresh_interval=1):
+        """Configure the newly built progress bar instance.
 
         Args:
             progress_format            (str): format string (work done, total work, percentage) to be used for the printed message
@@ -42,13 +43,13 @@ class ProgressBar(object):
         self._start_time     = 0
 
     def start(self):
-        """Marks the start of the progress bar"""
+        """Mark the start of the progress bar."""
         if self._time_format is not None and self._start_time == 0:
             self._start_time = time.time()
         self.update(True)
 
-    def advance(self, units, force_print = False):
-        """Marks the completion of X units of work
+    def advance(self, units, force_print=False):
+        """Mark the completion of X units of work.
 
         Args:
             units                  (int): Number of units of work that were finished
@@ -58,8 +59,8 @@ class ProgressBar(object):
         self._work_done = min(self._work_done, self._total_work)
         self.update(force_print)
 
-    def update(self, force_print = False):
-        """An update attempt to the shown progress status
+    def update(self, force_print=False):
+        """Update the shown progress status.
 
         Args:
             force_print (bool, optional): True iff should force an update of the printed message (False by default)
@@ -72,8 +73,7 @@ class ProgressBar(object):
             self._last_update = current_time
 
     def printProgress(self):
-        """Prints the progress status + progress bar"""
-
+        """Print the progress status + progress bar."""
         CURSOR_UP_ONE = "\x1b[1A"
         ERASE_LINE    = "\033[K"
 
@@ -99,7 +99,7 @@ class ProgressBar(object):
             print(progress_line)
 
     def finish(self):
-        """Close the progress bar (on error / successful finish)"""
+        """Close the progress bar (on error / successful finish)."""
         # Print a final status if one is needed
         self.update(self._work_done == self._total_work)
         # restore the stdout position

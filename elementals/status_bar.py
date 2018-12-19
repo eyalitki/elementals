@@ -6,9 +6,10 @@ from colorama import init
 init()
 
 class StatusBar(object):
-    """Status Bar utility for tasks without a known size limit
+    """Status Bar utility for tasks without a known size limit.
 
-    Attributes:
+    Attributes
+    ----------
         _messasge           (str): message that should be used when printing the status
         _time_format        (str): time format to be used for the elapsed time (None if time is not to be printed)
         _num_spaces         (int): number of spaces that should be used before the format message is printed
@@ -17,14 +18,15 @@ class StatusBar(object):
         _animation_index    (int): numeric state of the animation
         _animation_states (tuple): tuple of strings that will be printed one in each state in a cyclic fashion
 
-    Configuration Attributes:
+    Configuration Attributes
+    ------------------------
         default_animation (tuple) : tuple of strings that will be printed one in each state in a cyclic fashion
     """
 
     default_animation = ('-', '\\', '|', '/')
 
-    def __init__(self, message, num_spaces, time_format = None, refresh_interval = 0.5, animation = default_animation):
-        """Configures the newly built status bar instance
+    def __init__(self, message, num_spaces, time_format=None, refresh_interval=0.5, animation=default_animation):
+        """Configure the newly built status bar instance.
 
         Args:
             message                    (str): message that should be used when printing the status
@@ -43,13 +45,13 @@ class StatusBar(object):
         self._start_time       = 0
 
     def start(self):
-        """Marks the start of the progress bar"""
+        """Mark the start of the progress bar."""
         if self._time_format is not None and self._start_time == 0:
             self._start_time = time.time()
         self.update(True)
 
-    def update(self, force_print = False):
-        """An update attempt to the shown status bar
+    def update(self, force_print=False):
+        """Update the shown status bar.
 
         Args:
             force_print (bool, optional): True iff should force an update of the printed message (False by default)
@@ -62,8 +64,7 @@ class StatusBar(object):
             self._last_update = current_time
 
     def printStatus(self):
-        """Prints the status bar + animation"""
-
+        """Print the status bar + animation."""
         CURSOR_UP_ONE = "\x1b[1A"
         ERASE_LINE    = "\033[K"
 
@@ -81,6 +82,6 @@ class StatusBar(object):
         print(status_line)
 
     def finish(self):
-        """Close the status bar (on error / successful finish)"""
+        """Close the status bar (on error / successful finish)."""
         # Print a final status if one is needed
         self.update(True)

@@ -3,8 +3,8 @@ import os
 
 default_timestamp = "%Y_%m_%d - %H-%M-%S"
 
-def createAnchor(base_path, name_format, move_inside = False):
-    """Creates an anchor directory for the running script's outputs
+def createAnchor(base_path, name_format, move_inside=False):
+    """Create an anchor directory for the running script's outputs.
 
     Args:
         base_path              (str): basic FS path in which the anchor directory will be created
@@ -14,7 +14,6 @@ def createAnchor(base_path, name_format, move_inside = False):
     Return Value:
         absolute path to the created anchor directory
     """
-
     abs_base = os.path.abspath(base_path)
     anchor_dir = name_format % time.strftime(default_timestamp)
     abs_anchor = os.path.join(abs_base, anchor_dir)
