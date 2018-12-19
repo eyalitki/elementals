@@ -131,18 +131,18 @@ class PrompterFormatter(ColorFormatter):
             formated string message that represents the log record
         """
         self_prefix = self.calcPrefix(record.levelno)
-        raw_msg = record.msg
+        raw_msg  = record.msg
         msg_args = record.args
-        record.msg = ''
+        record.msg  = ''
         record.args = []
         # We use ColorFormatter (twice) on purpose, as we want to skip forward to it's parent
         prefix = super(ColorFormatter, self).format(record) + self_prefix
-        record.msg = raw_msg
+        record.msg  = raw_msg
         record.args = msg_args
         # avoid a double prefix
-        record.msg = Logger._fixLines(super(ColorFormatter, self).format(record)[len(prefix) - len(self_prefix):], prefix)
+        record.msg  = Logger._fixLines(super(ColorFormatter, self).format(record)[len(prefix) - len(self_prefix):], prefix)
         record.args = []
         result = super(PrompterFormatter, self).format(record)
-        record.msg = raw_msg
+        record.msg  = raw_msg
         record.args = msg_args
         return result
