@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/eyalitki/elementals.svg?branch=master)](https://travis-ci.org/eyalitki/elementals) [![Docs Status](https://readthedocs.org/projects/elementals/badge/?version=latest)](https://readthedocs.org/projects/elementals) 
+
 # elementals
 Python package with basic utilities for CTF scripts (works well for exploit PoCs too).
 
@@ -19,11 +21,11 @@ The features included in **elementals** are:
 * **hexDump:** Stylized hex dump for binary blobs / strings
 
 Here is a screenshot from an example script with most of the features:
-![alt text](https://github.com/eyalitki/elementals/blob/master/docs/elementals_poc.png "Full use case")
+![Full use case](https://github.com/eyalitki/elementals/blob/master/docs/elementals_poc.png "Full use case")
 And here is the log that is stored behind the scenes:
-![alt text](https://github.com/eyalitki/elementals/blob/master/docs/elementals_log.png "Stored log")
+![Stored log](https://github.com/eyalitki/elementals/blob/master/docs/elementals_log.png "Stored log")
 Example of the hexDump()'s output:
-![alt text](https://github.com/eyalitki/elementals/blob/master/docs/elementals_hexdump.png "Hex dump")
+![Hex dump](https://github.com/eyalitki/elementals/blob/master/docs/elementals_hexdump.png "Hex dump")
 
 ## Used by
 The **elementals** package is used in most of my scripts and also in my public Github projects:
