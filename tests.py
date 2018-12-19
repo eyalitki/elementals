@@ -13,7 +13,7 @@ passed = True
 
 # Documentation tests
 for check in pydocstyle.check(file_list, ignore = ["D100", "D104", "D413", "D213", "D203"]) :
-	print check
+	print(check)
 	passed = False
 	
 # last status
