@@ -59,4 +59,4 @@ Functions
    Prompts the user for a given input, using the same meta-sploit styled prefix
 
    :param msg: (str): message that would be shown to the user when asking for his input
-   :rtype: User input string, as returned by "raw_input"
+   :return: User input string, as returned by "raw_input"

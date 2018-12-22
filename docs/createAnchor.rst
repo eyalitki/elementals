@@ -21,4 +21,4 @@ Functions
    :param base_path: (str): basic FS path in which the anchor directory will be created
    :param name_format: (str): name format for the created anchor, expects an "%s" for the generated timestamp
    :param move_inside: (bool, optional): True iff should move the current directory to the anchor (False by default)
-   :rtype: absolute path to the created anchor directory
+   :return: absolute path to the created anchor directory

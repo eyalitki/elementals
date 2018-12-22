@@ -10,4 +10,4 @@ Functions
    Prepares a hexdump string to be nicely printed by a logger
 
    :param data: (str): binary blob to be converted to a nice hexdump
-   :rtype: hexdump formatted string (possibly with multiple lines)
+   :return: hexdump formatted string (possibly with multiple lines)
