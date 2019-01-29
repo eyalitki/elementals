@@ -2,3 +2,4 @@ colorama
 hexdump
 pydocstyle
 flake8
+six
