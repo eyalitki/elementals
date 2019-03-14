@@ -14,7 +14,7 @@ Configurations
 Functions
 +++++++++
 
-.. function:: createAnchor(base_path, name_format, move_inside = False)
+.. function:: createAnchor(base_path, name_format, move_inside=False)
 
    Creates an anchor directory for the running script's outputs
 
@@ -22,3 +22,12 @@ Functions
    :param name_format: (str): name format for the created anchor, expects an "%s" for the generated timestamp
    :param move_inside: (bool, optional): True iff should move the current directory to the anchor (False by default)
    :return: absolute path to the created anchor directory
+   
+Usage Examples
+++++++++++++++
+
+Creating a default anchor at the current directory, named "Output 2019_03_14 - 19-44-08":
+  .. code-block:: python
+
+   createAnchor(".", "Output %s", move_inside=True)
+    

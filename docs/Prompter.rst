@@ -22,7 +22,7 @@ Configurations
 Functions
 +++++++++
 
-.. function:: Prompter.__init__(self, name = '', log_file_names = [], min_log_level = logging.INFO, timestamp = Logger.default_timestamp, log_format = Logger.default_log_format)
+.. function:: Prompter.__init__(self, name='', log_file_names=[], min_log_level=logging.INFO, timestamp=Logger.default_timestamp, log_format=Logger.default_log_format)
 
    Configures the newly built prompter instance
 
@@ -60,3 +60,44 @@ Functions
 
    :param msg: (str): message that would be shown to the user when asking for his input
    :return: User input string, as returned by "raw_input"
+   
+Usage Examples
+++++++++++++++
+
+Creating a basic prompter that prints to the screen:
+  .. code-block:: python
+
+   logger = Prompter("Dummy Prompter")
+   logger.debug("Debug message that no one will see")
+   logger.info("Logging has began")
+   logger.addIndent()
+   logger.warning("You previous debug message went to /dev/null")
+   logger.removeIndent()
+   logger.error("This example just ended")
+
+And the output will be:
+::
+  [+] Logging has began
+      [*] You previous debug message went to /dev/null
+  [!] This example just ended
+
+Creating a complex logger with multiple files:
+  .. code-block:: python
+
+   logger = Prompter("Complex Prompter", [('full_log.txt', 'w', logging.DEBUG)], min_log_level=logging.WARNING)
+   logger.debug("Debug message that will be written to the log file")
+   logger.info("Logging has began but you won't see it")
+   logger.warning("The script is nearing it's end")
+   logger.error("This example just ended")
+
+And the output will be:
+::
+  [*] The script is nearing it's end
+  [!] This example just ended
+  
+And the file log will be:
+::
+  [14/03/2019 20:08:29] - Complex Prompter - DEBUG: Debug message that will be written to the log file
+  [14/03/2019 20:08:29] - Complex Prompter - INFO: Logging has began but you won't see it
+  [14/03/2019 20:08:29] - Complex Prompter - WARNING: The script is nearing it's end
+  [14/03/2019 20:08:30] - Complex Prompter - ERROR: This example just ended

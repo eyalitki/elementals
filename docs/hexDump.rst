@@ -11,3 +11,11 @@ Functions
 
    :param data: (str): binary blob to be converted to a nice hexdump
    :return: hexdump formatted string (possibly with multiple lines)
+   
+Usage Examples
+++++++++++++++
+
+Debug logging the hex dump of a compiled shellcode:
+  .. code-block:: python
+
+   logger.debug(hexDump(shellcode))
