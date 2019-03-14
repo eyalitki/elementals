@@ -37,7 +37,7 @@ Attributes
 Functions
 +++++++++
 
-.. function:: Logger.__init__(self, name, log_file_names = [], use_stdout = True, min_log_level = logging.INFO, timestamp = default_timestamp, log_format = default_log_format)
+.. function:: Logger.__init__(self, name, log_file_names=[], use_stdout=True, min_log_level=logging.INFO, timestamp=default_timestamp, log_format=default_log_format)
 
    Configures the newly built logger instance
 
@@ -48,7 +48,7 @@ Functions
    :param timestamp: (str, optional): time format to be used in every log record (default_timestamp by default)
    :param log_format: (str, optional): overall format of the log records (default_log_format by default)
    
-.. function:: Logger.linkHandler(self, handler, log_level = None)
+.. function:: Logger.linkHandler(self, handler, log_level=None)
 
    Links an additional custom handler
 
@@ -69,3 +69,38 @@ Functions
 .. function:: Logger.removeIndent(self)
 
    Removes an indentation level from the following log records shown on the stdout (only meaningful for Prompter)
+   
+Usage Examples
+++++++++++++++
+
+Creating a basic logger that prints to the screen:
+  .. code-block:: python
+
+   logger = Logger("Dummy Logger")
+   logger.debug("Debug message that no one will see")
+   logger.info("Logging has began")
+   logger.warning("You previous debug message went to /dev/null")
+   logger.error("This example just ended")
+
+And the output will be:
+::
+  [14/03/2019 19:55:59] - Dummy Logger - INFO: Logging has began
+  [14/03/2019 19:55:59] - Dummy Logger - WARNING: You previous debug message went to /dev/null
+  [14/03/2019 19:55:59] - Dummy Logger - ERROR: This example just ended
+
+Creating a complex logger with multiple files:
+  .. code-block:: python
+
+   logger = Logger("Complex Logger", [('full_log.txt', 'w', logging.DEBUG), ('warning_log.txt', 'w', logging.WARNING)], min_log_level=logging.DEBUG)
+   logger.debug("Debug message that will be seen this time")
+   logger.info("Logging has began")
+   logger.warning("You previous debug message went to /dev/null")
+   logger.error("This example just ended")
+
+And the output will be:
+::
+  [14/03/2019 19:59:15] - Complex Logger - DEBUG: Debug message that will be seen this time
+  [14/03/2019 19:59:15] - Complex Logger - INFO: Logging has began
+  [14/03/2019 19:59:15] - Complex Logger - WARNING: You previous debug message went to /dev/null
+  [14/03/2019 19:59:17] - Complex Logger - ERROR: This example just ended
+
