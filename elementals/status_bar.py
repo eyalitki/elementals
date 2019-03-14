@@ -40,9 +40,11 @@ class StatusBar(object):
         self._num_spaces       = num_spaces
         self._refresh_period   = refresh_interval
         self._last_update      = None
+        self._last_update_lines = 1
         self._animation_index  = 0
         self._animation_states = animation
         self._start_time       = 0
+        self._status = None
 
     def start(self):
         """Mark the start of the progress bar."""
@@ -50,12 +52,16 @@ class StatusBar(object):
             self._start_time = time.time()
         self.update(True)
 
-    def update(self, force_print=False):
+    def update(self, force_print=False, status=None):
         """Update the shown status bar.
 
         Args:
             force_print (bool, optional): True iff should force an update of the printed message (False by default)
+            status(str, optional): the finish status message
         """
+        if status:
+            self._status = status
+
         # Check if needs to preform an update
         current_time = time.time()
         if force_print or self._refresh_period < 0 or self._last_update is None or current_time - self._last_update >= self._refresh_period:
@@ -75,13 +81,22 @@ class StatusBar(object):
             time_format = ''
 
         status_line = ' ' * self._num_spaces + time_format + self._message + ' ' + self._animation_states[self._animation_index]
+        if self._status:
+            status_line = status_line + ' ' + self._status
         self._animation_index = (self._animation_index + 1) % len(self._animation_states)
         # Now actually print it
         if self._last_update is not None:
-            sys.stdout.write(CURSOR_UP_ONE + ERASE_LINE)
+            sys.stdout.write((CURSOR_UP_ONE + ERASE_LINE) * self._last_update_lines)
         print(status_line)
+        self._last_update_lines = status_line.count('\n') + 1
 
-    def finish(self):
-        """Close the status bar (on error / successful finish)."""
+    def finish(self, status=None):
+        """Close the status bar (on error / successful finish).
+
+        Args:
+            status(str, optional): the finish status message
+        """
+        if status:
+            self._status = status
         # Print a final status if one is needed
         self.update(True)
