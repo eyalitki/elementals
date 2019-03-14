@@ -30,7 +30,7 @@ Example of the hexDump()'s output:
 ## Used by
 The **elementals** package is used in most of my scripts and also in my public Github projects:
 * **Scout Debugger** - https://github.com/CheckPointSW/Scout
-* **Karta (IDA Plugin)** - (soon to be released)
+* **Karta (IDA Plugin)** - https://github.com/CheckPointSW/Karta
 
 ## References
 * Twitter: [@EyalItkin](https://twitter.com/EyalItkin)
