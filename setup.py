@@ -29,14 +29,14 @@ The features included in **elementals** are:
 ## Used by
 The **elementals** package is used in most of my scripts and also in my public Github projects:
 * **Scout Debugger** - https://github.com/CheckPointSW/Scout
-* **Karta (IDA Plugin)** - (soon to be released)
+* **Karta (IDA Plugin)** - https://github.com/CheckPointSW/Karta
 
 ## References
 * Twitter: [@EyalItkin](https://twitter.com/EyalItkin)
 * E-mail: eyal dot itkin at gmail dot com'''
 
 setup(name='elementals',
-      version='1.2.5',
+      version='1.2.6',
       description='Basic utilities for CTF (or exploit) scripts',
       author='Eyal Itkin',
       author_email='eyal.itkin@gmail.com',
