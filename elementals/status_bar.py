@@ -14,9 +14,12 @@ class StatusBar(object):
         _time_format        (str): time format to be used for the elapsed time (None if time is not to be printed)
         _num_spaces         (int): number of spaces that should be used before the format message is printed
         _refresh_period     (int): time period (in seconds) used to update the shown status, or -1 if not activated
-        _last_update (      time): time point of last shown status (None if did not start yet)
+        _last_update       (time): time point of last shown status (None if did not start yet)
+        _last_update_lines  (int): the number of status lines that were last printed to the screen
         _animation_index    (int): numeric state of the animation
         _animation_states (tuple): tuple of strings that will be printed one in each state in a cyclic fashion
+        _start_time        (time): time in which the status bar began it's action
+        _status             (str): status message to be added to the shown message (None if not active)
 
     Configuration Attributes
     ------------------------
@@ -35,19 +38,19 @@ class StatusBar(object):
             refresh_interval (int, optional): time period (in seconds) used to update the shown status, or -1 if not activated. (0.5 by default)
             animation      (tuple, optional): tuple of strings that will be printed one in each state in a cyclic fashion (default_animation by default)
         """
-        self._message          = message
-        self._time_format      = time_format
-        self._num_spaces       = num_spaces
-        self._refresh_period   = refresh_interval
-        self._last_update      = None
+        self._message           = message
+        self._time_format       = time_format
+        self._num_spaces        = num_spaces
+        self._refresh_period    = refresh_interval
+        self._last_update       = None
         self._last_update_lines = 1
-        self._animation_index  = 0
-        self._animation_states = animation
-        self._start_time       = 0
-        self._status = None
+        self._animation_index   = 0
+        self._animation_states  = animation
+        self._start_time        = 0
+        self._status            = None
 
     def start(self):
-        """Mark the start of the progress bar."""
+        """Mark the start of the status bar."""
         if self._time_format is not None and self._start_time == 0:
             self._start_time = time.time()
         self.update(True)
@@ -57,7 +60,7 @@ class StatusBar(object):
 
         Args:
             force_print (bool, optional): True iff should force an update of the printed message (False by default)
-            status(str, optional): the finish status message
+            status (str, optional): the status message for the update (None by default)
         """
         if status:
             self._status = status
@@ -94,7 +97,7 @@ class StatusBar(object):
         """Close the status bar (on error / successful finish).
 
         Args:
-            status(str, optional): the finish status message
+            status(str, optional): the finish status message (None by default)
         """
         if status:
             self._status = status
