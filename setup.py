@@ -48,7 +48,7 @@ setup(name='elementals',
       install_requires=['colorama', 'hexdump', 'pydocstyle', 'flake8', 'six'],
       classifiers=[
                     "Programming Language :: Python",
-                    "License :: OSI Approved :: MIT License (MIT License)",
+                    "License :: OSI Approved :: MIT License",
                     "Operating System :: OS Independent",
                   ],
       zip_safe=False)
