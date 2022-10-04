@@ -20,13 +20,13 @@
 # -- Project information -----------------------------------------------------
 
 project = u'elementals'
-copyright = u'2018, Eyal Itkin'
+copyright = u'2022, Eyal Itkin'
 author = u'Eyal Itkin'
 
 # The short X.Y version
 version = u''
 # The full version, including alpha/beta/rc tags
-release = u'1.2.2'
+release = u'1.3.0'
 
 
 # -- General configuration ---------------------------------------------------
