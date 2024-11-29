@@ -33,5 +33,4 @@ The **elementals** package is used in most of my scripts and also in my public G
 * **Karta (IDA Plugin)** - https://github.com/CheckPointSW/Karta
 
 ## References
-* Twitter: [@EyalItkin](https://twitter.com/EyalItkin)
 * E-mail: eyal dot itkin at gmail dot com
