@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 from codecs     import open
 from os         import path
 
-# Different from the README.md, because PyPi struggles with shwoing PNG images
+# Different from the README.md, because PyPi struggles with showing PNG images
 long_description = '''# elementals
 Python package with basic utilities for CTF scripts (works well for exploit PoCs too).
 
