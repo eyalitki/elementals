@@ -43,5 +43,4 @@ References
 --------------
 
 * Github repository: https://github.com/eyalitki/elementals
-* Twitter: https://twitter.com/EyalItkin
 * E-mail: eyal dot itkin at gmail dot com
