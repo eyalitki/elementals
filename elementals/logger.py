@@ -101,28 +101,62 @@ class Logger(logging.Logger):
         pass
 
     @staticmethod
-    def _fixLines(message, prefix):
+    def _stripLine(line):
+        """Remove color escape codes from a (possibly) colored line.
+
+        Args:
+            line (str): log record line
+
+        Return Value:
+            stripped line.
+        """
+        if "\033" not in line:
+            return line
+        result = ''
+        for part in line.split("\033"):
+            if len(result) == '':
+                result += part
+                continue
+            if part.find('m') == -1:
+                result += part
+                continue
+            result += part[part.find('m')+1:]
+        return result
+
+    @staticmethod
+    def _fixLines(message, prefix, is_ui=False):
         """Update a (possibly) multiline record, to better print the prefix.
 
         Args:
-            message (str): log record message
-            prefix  (str): string prefix to be added
+            message            (str): log record message
+            prefix             (str): string prefix to be added
+            is_ui   (bool, optional): is a UI related (colored) formatter? (False by default)
 
         Return Value:
             styled to prefix (possibly multiline) message
         """
+        # Remove possible color coding
+        if not is_ui:
+            message = Logger._stripLine(message)
         if "\n" not in message:
             return prefix + message
-        else:
-            prefix_length = len(prefix)
-            result = ''
-            for line in message.split("\n"):
-                if len(result) == 0:
-                    result += prefix + line + "\n"
-                else:
-                    result += prefix_length * " " + line + "\n"
-            # chop the last new line
-            return result[:-1]
+        prefix_length = len(prefix)
+        result = ''
+        first_line = True
+        for line in message.split("\n"):
+            # If this isn't the first line, the handling is simple
+            if not first_line:
+                result += prefix_length * " " + line + "\n"
+                continue
+            first_line = False
+            # If the first line is empty and this is a UI prompt, don't print anything
+            if is_ui and len(line.strip()) == 0:
+                result += ""
+            else:
+                result += prefix + line + "\n"
+
+        # chop the last new line
+        return result[:-1]
 
 class ColorFormatter(logging.Formatter):
     """Custom color formatter to be used by the std output handler of the Logger class.
@@ -174,7 +208,7 @@ class ColorFormatter(logging.Formatter):
         prefix = super(ColorFormatter, self).format(record)
         record.msg = raw_msg
         record.args = msg_args
-        return self._log_styles[record.levelno] + Logger._fixLines(super(ColorFormatter, self).format(record)[len(prefix):], prefix) + Style.RESET_ALL
+        return self._log_styles[record.levelno] + Logger._fixLines(super(ColorFormatter, self).format(record)[len(prefix):], prefix, is_ui=True) + Style.RESET_ALL
 
 class LinesFormatter(logging.Formatter):
     """Custom formatter to add support for multiline records."""

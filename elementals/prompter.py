@@ -141,7 +141,7 @@ class PrompterFormatter(ColorFormatter):
         record.msg  = raw_msg
         record.args = msg_args
         # avoid a double prefix
-        record.msg  = Logger._fixLines(super(ColorFormatter, self).format(record)[len(prefix) - len(self_prefix):], prefix)
+        record.msg  = Logger._fixLines(super(ColorFormatter, self).format(record)[len(prefix) - len(self_prefix):], prefix, is_ui=True)
         record.args = []
         result = super(PrompterFormatter, self).format(record)
         record.msg  = raw_msg
