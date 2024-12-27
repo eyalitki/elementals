@@ -114,7 +114,7 @@ class Logger(logging.Logger):
             return line
         result = ''
         for part in line.split("\033"):
-            if len(result) == '':
+            if len(result) == 0:
                 result += part
                 continue
             if part.find('m') == -1:
