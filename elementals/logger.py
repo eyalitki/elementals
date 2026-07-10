@@ -1,6 +1,10 @@
 import logging
 from colorama import init, Fore, Style
 from hexdump import dumpgen
+try:
+    import darkdetect
+except ImportError:
+    darkdetect = None
 
 # Init the colorama state
 init()
@@ -178,10 +182,21 @@ class ColorFormatter(logging.Formatter):
                         logging.CRITICAL: Fore.LIGHTRED_EX,
                       }
 
+    light_colors    = {
+                        logging.DEBUG:    Fore.BLUE,
+                        logging.INFO:     Fore.BLACK,
+                        logging.WARN:     Fore.YELLOW,
+                        logging.ERROR:    Fore.RED,
+                        logging.CRITICAL: Fore.RED,
+                      }
+
     def __init__(self, fmt=None, datefmt=None):
         """Create the base instance."""
         super(ColorFormatter, self).__init__(fmt, datefmt)
-        self._log_styles = dict(ColorFormatter.default_colors)
+        if darkdetect and darkdetect.isLight():
+            self._log_styles = dict(ColorFormatter.light_colors)
+        else:
+            self._log_styles = dict(ColorFormatter.default_colors)
 
     def setColor(self, log_level, style):
         """Update the basic style for a specific logging level.
