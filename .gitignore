@@ -12,3 +12,6 @@
 /Elementals.vtg
 /build/*
 /docs/_build/*
+
+# Repository files
+.editorconfig

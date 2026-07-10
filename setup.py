@@ -1,6 +1,4 @@
 from setuptools import setup, find_packages
-from codecs     import open
-from os         import path
 
 # Different from the README.md, because PyPi struggles with showing PNG images
 long_description = '''# elementals
@@ -19,7 +17,7 @@ https://github.com/eyalitki/elementals
 The **elementals** python package is a utility package with handy tools for CTF scripts and PoC-style scripts. What was first implemented for personal use in small research scripts was now upgraded to be used by security researchers as a lightweight substitute to the famous pwntools package.
 
 The features included in **elementals** are:
-* **Logger:** Basic (logging based) logger - configured and ready to use 
+* **Logger:** Basic (logging based) logger - configured and ready to use
 * **Prompter:** Metasploit based stdout wrapper for the logger
 * **ProgressBar:** User-friendly graphical progress bar
 * **StatusBar:** User-friendly graphical status bar

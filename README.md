@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/eyalitki/elementals.svg?branch=master)](https://travis-ci.org/eyalitki/elementals) [![Docs Status](https://readthedocs.org/projects/elementals/badge/?version=latest)](https://readthedocs.org/projects/elementals) 
+[![Build Status](https://travis-ci.org/eyalitki/elementals.svg?branch=master)](https://travis-ci.org/eyalitki/elementals) [![Docs Status](https://readthedocs.org/projects/elementals/badge/?version=latest)](https://readthedocs.org/projects/elementals)
 
 # elementals
 Python package with basic utilities for CTF scripts (works well for exploit PoCs too).
@@ -13,7 +13,7 @@ https://elementals.readthedocs.io/
 The **elementals** python package is a utility package with handy tools for CTF scripts and PoC-style scripts. What was first implemented for personal use in small research scripts was now upgraded to be used by security researchers as a lightweight substitute to the famous pwntools package.
 
 The features included in **elementals** are:
-* **Logger:** Basic (logging based) logger - configured and ready to use 
+* **Logger:** Basic (logging based) logger - configured and ready to use
 * **Prompter:** Metasploit based stdout wrapper for the logger
 * **ProgressBar:** User-friendly graphical progress bar
 * **StatusBar:** User-friendly graphical status bar
