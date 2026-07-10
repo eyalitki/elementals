@@ -1,6 +1,10 @@
 import logging
 from colorama import init, Fore, Style
 from hexdump import dumpgen
+try:
+    import darkdetect
+except ImportError:
+    darkdetect = None
 
 # Init the colorama state
 init()
@@ -32,12 +36,12 @@ class Logger(logging.Logger):
         """Configure the newly built logger instance.
 
         Args:
-            name                            (str): name for the logger instance
-            log_files (tuple of tuples, optional): tuple of log files we should use: (log file name, open mode (, min log level))
-            use_stdout        (boolean, optional): should we print to stdout? (True by default)
-            min_log_level        (enum, optional): minimum log level. Value should be an enum option from the log level names (logging.INFO by default)
-            timestamp             (str, optional): time format to be used in every log record (default_timestamp by default)
-            log_format            (str, optional): overall format of the log records (default_log_format by default)
+            name                                 (str): name for the logger instance
+            log_file_names (tuple of tuples, optional): tuple of log files we should use: (log file name, open mode (, min log level))
+            use_stdout             (boolean, optional): should we print to stdout? (True by default)
+            min_log_level             (enum, optional): minimum log level. Value should be an enum option from the log level names (logging.INFO by default)
+            timestamp                  (str, optional): time format to be used in every log record (default_timestamp by default)
+            log_format                 (str, optional): overall format of the log records (default_log_format by default)
         """
         super(Logger, self).__init__(name)
 
@@ -120,7 +124,7 @@ class Logger(logging.Logger):
             if part.find('m') == -1:
                 result += part
                 continue
-            result += part[part.find('m')+1:]
+            result += part[part.find('m') + 1:]
         return result
 
     @staticmethod
@@ -178,10 +182,21 @@ class ColorFormatter(logging.Formatter):
                         logging.CRITICAL: Fore.LIGHTRED_EX,
                       }
 
+    light_colors    = {
+                        logging.DEBUG:    Fore.BLUE,
+                        logging.INFO:     Fore.BLACK,
+                        logging.WARN:     Fore.YELLOW,
+                        logging.ERROR:    Fore.RED,
+                        logging.CRITICAL: Fore.RED,
+                      }
+
     def __init__(self, fmt=None, datefmt=None):
         """Create the base instance."""
         super(ColorFormatter, self).__init__(fmt, datefmt)
-        self._log_styles = dict(ColorFormatter.default_colors)
+        if darkdetect and darkdetect.isLight():
+            self._log_styles = dict(ColorFormatter.light_colors)
+        else:
+            self._log_styles = dict(ColorFormatter.default_colors)
 
     def setColor(self, log_level, style):
         """Update the basic style for a specific logging level.

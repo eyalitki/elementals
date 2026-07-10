@@ -1,6 +1,4 @@
 from setuptools import setup, find_packages
-from codecs     import open
-from os         import path
 
 # Different from the README.md, because PyPi struggles with showing PNG images
 long_description = '''# elementals
@@ -19,7 +17,7 @@ https://github.com/eyalitki/elementals
 The **elementals** python package is a utility package with handy tools for CTF scripts and PoC-style scripts. What was first implemented for personal use in small research scripts was now upgraded to be used by security researchers as a lightweight substitute to the famous pwntools package.
 
 The features included in **elementals** are:
-* **Logger:** Basic (logging based) logger - configured and ready to use 
+* **Logger:** Basic (logging based) logger - configured and ready to use
 * **Prompter:** Metasploit based stdout wrapper for the logger
 * **ProgressBar:** User-friendly graphical progress bar
 * **StatusBar:** User-friendly graphical status bar
@@ -35,7 +33,7 @@ The **elementals** package is used in most of my scripts and also in my public G
 * E-mail: eyal dot itkin at gmail dot com'''
 
 setup(name='elementals',
-      version='1.3.3',
+      version='1.4.0',
       description='Basic utilities for CTF (or exploit) scripts',
       author='Eyal Itkin',
       author_email='eyal.itkin@gmail.com',
@@ -44,7 +42,7 @@ setup(name='elementals',
       url='https://github.com/eyalitki/elementals',
       license='MIT',
       packages=find_packages(exclude=['tests']),
-      install_requires=['colorama', 'hexdump', 'pydocstyle', 'flake8', 'six'],
+      install_requires=['colorama', 'hexdump', 'pydocstyle', 'flake8', 'six', 'darkdetect'],
       classifiers=[
                     "Programming Language :: Python",
                     "License :: OSI Approved :: MIT License",
