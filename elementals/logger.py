@@ -1,4 +1,6 @@
 import logging
+import os
+import sys
 from colorama import init, Fore, Style
 from hexdump import dumpgen
 try:
@@ -8,6 +10,66 @@ except ImportError:
 
 # Init the colorama state
 init()
+
+def _is_terminal_light_themed():
+    """Detect if the terminal uses a light background, even over SSH.
+
+    Return Value:
+        True if the terminal is light themed, False otherwise
+    """
+    colorfgbg = os.environ.get('COLORFGBG')
+    if colorfgbg:
+        try:
+            bg = int(colorfgbg.split(';')[-1])
+            return bg not in (7, 15)
+        except ValueError:
+            pass
+
+    if not sys.stdout.isatty() or not sys.stdin.isatty():
+        return False
+
+    try:
+        import tty
+        import termios
+        import select
+
+        fd = sys.stdin.fileno()
+        old_settings = termios.tcgetattr(fd)
+        response = ""
+
+        try:
+            tty.setraw(fd)
+            sys.stdout.write('\033]11;?\033\\\\')
+            sys.stdout.flush()
+
+            r, _, _ = select.select([sys.stdin], [], [], 0.1)
+            if r:
+                while True:
+                    char = sys.stdin.read(1)
+                    response += char
+                    if char == '\\\\' or char == '\\x07':
+                        break
+                    if len(response) > 50:
+                        break
+        finally:
+            termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+
+        if 'rgb:' in response:
+            rgb_str = response.split('rgb:')[1].split('\\033')[0].split('\\x07')[0]
+            r_str, g_str, b_str = rgb_str.split('/')
+
+            r, g, b = int(r_str, 16), int(g_str, 16), int(b_str, 16)
+
+            if len(r_str) == 4:
+                r, g, b = r >> 8, g >> 8, b >> 8
+
+            luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
+            return luminance > 0.5
+
+    except Exception:
+        pass
+
+    return False
 
 class Logger(logging.Logger):
     """Generic Logger that prints both to stdout and an external log file.
@@ -171,10 +233,11 @@ class ColorFormatter(logging.Formatter):
 
     Configurations
     --------------
-        default_colors (dict of type => color): <log level> => <colorama formatting>
+        dark_colors (dict of type => color): <log level> => <colorama formatting>
+        light_colors (dict of type => color): <log level> => <colorama formatting>
     """
 
-    default_colors  = {
+    dark_colors  = {
                         logging.DEBUG:    Fore.LIGHTCYAN_EX,
                         logging.INFO:     Fore.LIGHTWHITE_EX,
                         logging.WARN:     Fore.LIGHTYELLOW_EX,
@@ -190,13 +253,32 @@ class ColorFormatter(logging.Formatter):
                         logging.CRITICAL: Fore.RED,
                       }
 
+    def _resolve_default_colors(self):
+        # If running over SSH, query the client's terminal directly instead of the remote server OS
+        if "SSH_CONNECTION" in os.environ:
+            if _is_terminal_light_themed():
+                return dict(self.light_colors)
+            else:
+                return dict(self.dark_colors)
+
+        # For local execution, prefer darkdetect (OS-level detection)
+        if darkdetect:
+            theme = darkdetect.theme()
+            if theme == 'Light':
+                return dict(self.light_colors)
+            elif theme == 'Dark':
+                return dict(self.dark_colors)
+
+        # Fallback if darkdetect is missing or returned None
+        if _is_terminal_light_themed():
+            return dict(self.light_colors)
+        else:
+            return dict(self.dark_colors)
+
     def __init__(self, fmt=None, datefmt=None):
         """Create the base instance."""
         super(ColorFormatter, self).__init__(fmt, datefmt)
-        if darkdetect and darkdetect.isLight():
-            self._log_styles = dict(ColorFormatter.light_colors)
-        else:
-            self._log_styles = dict(ColorFormatter.default_colors)
+        self._log_styles = self._resolve_default_colors()
 
     def setColor(self, log_level, style):
         """Update the basic style for a specific logging level.
