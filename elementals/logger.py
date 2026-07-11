@@ -39,7 +39,7 @@ def _is_terminal_light_themed():
 
         try:
             tty.setraw(fd)
-            sys.stdout.write('\033]11;?\033\\\\')
+            sys.stdout.write('\033]11;?\x07')
             sys.stdout.flush()
 
             r, _, _ = select.select([sys.stdin], [], [], 0.1)
