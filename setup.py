@@ -42,7 +42,7 @@ setup(name='elementals',
       url='https://github.com/eyalitki/elementals',
       license='MIT',
       packages=find_packages(exclude=['tests']),
-      install_requires=['colorama', 'hexdump', 'pydocstyle', 'flake8', 'six', 'darkdetect'],
+      install_requires=['colorama', 'hexdump', 'pydocstyle', 'flake8', 'six'],
       classifiers=[
                     "Programming Language :: Python",
                     "License :: OSI Approved :: MIT License",
