@@ -9,15 +9,15 @@ Configurations
 
    Default color mapping for each logging level::
    
-	logging.DEBUG    ==> Fore.LIGHTCYAN_EX
+	logging.DEBUG    ==> Fore.BLUE
 	
-	logging.INFO     ==> Fore.LIGHTWHITE_EX
+	logging.INFO     ==> Fore.RESET
 	
-	logging.WARN     ==> Fore.LIGHTYELLOW_EX
+	logging.WARN     ==> Fore.YELLOW
 	
-	logging.ERROR    ==> Fore.LIGHTRED_EX
+	logging.ERROR    ==> Fore.RED
 	
-	logging.CRITICAL ==> Fore.LIGHTRED_EX
+	logging.CRITICAL ==> Fore.RED
 
 Attributes
 ++++++++++

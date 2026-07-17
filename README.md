@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/eyalitki/elementals.svg?branch=master)](https://travis-ci.org/eyalitki/elementals) [![Docs Status](https://readthedocs.org/projects/elementals/badge/?version=latest)](https://readthedocs.org/projects/elementals)
+[![Docs Status](https://readthedocs.org/projects/elementals/badge/?version=latest)](https://readthedocs.org/projects/elementals)
 
 # elementals
 Python package with basic utilities for CTF scripts (works well for exploit PoCs too).

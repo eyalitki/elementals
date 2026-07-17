@@ -33,7 +33,7 @@ The **elementals** package is used in most of my scripts and also in my public G
 * E-mail: eyal dot itkin at gmail dot com'''
 
 setup(name='elementals',
-      version='1.4.2',
+      version='1.4.3',
       description='Basic utilities for CTF (or exploit) scripts',
       author='Eyal Itkin',
       author_email='eyal.itkin@gmail.com',
@@ -42,7 +42,7 @@ setup(name='elementals',
       url='https://github.com/eyalitki/elementals',
       license='MIT',
       packages=find_packages(exclude=['tests']),
-      install_requires=['colorama', 'hexdump', 'pydocstyle', 'flake8', 'six', 'darkdetect'],
+      install_requires=['colorama', 'hexdump', 'pydocstyle', 'flake8', 'six'],
       classifiers=[
                     "Programming Language :: Python",
                     "License :: OSI Approved :: MIT License",

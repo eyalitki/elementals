@@ -3,4 +3,3 @@ hexdump
 pydocstyle
 flake8
 six
-darkdetect
